@@ -6,4 +6,3 @@ SET mount_dir="C:\WinPE_amd64\mount"
 
 CD %adk_dir%
 Dism /Mount-Image /ImageFile:%img_file% /index:%index% /MountDir:%mount_dir%
-PAUSE

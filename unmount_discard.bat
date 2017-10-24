@@ -4,4 +4,3 @@ SET mount_dir="C:\WinPE_amd64\mount"
 
 CD %adk_dir%
 Dism /Unmount-Image /MountDir:%mount_dir% /discard
-PAUSE
