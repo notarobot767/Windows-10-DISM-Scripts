@@ -88,9 +88,8 @@ CALL %adk_env%
 :: necessary for running copype command
 
 SET ark=amd64
-:: define arki
+:: define arktecture
 :: Specify either x86, amd64, or arm
-:: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-create-usb-bootable-drive
 
 ECHO creating WinPE image at "%img_dir%"
 CALL copype %ark% %img_dir%
