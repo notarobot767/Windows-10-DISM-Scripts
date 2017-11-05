@@ -1,5 +1,9 @@
 :: defaults
 SET default_netshare=\\dropzone\anonymous\wim /user:user pass
+SET diskscript=%scripts%\diskpart\diskscript.bat
+:: diskscript is dynamically created based on
+::   a. selected disk
+::   b. MBR or GDP
 
 :: #################################################################
 :SelectDisk
@@ -28,12 +32,14 @@ SET choice=
 SET /P choice=select partitioning: 
 ECHO.
 
+ECHO select disk %disk% > %diskscript%
+
 IF /I '%choice%'=='A' (
-  SET diskscript=%scripts%\diskpart\createMBR.bat
+  MORE %scripts%\diskpart\createMBR.bat >> %diskscript%
   GOTO SelectSource
 )
 IF /I '%choice%'=='B' (
-  SET diskscript=%scripts%\diskpart\createUEFI.bat
+  MORE %scripts%\diskpart\createUEFI.bat >> %diskscript%
   GOTO SelectSource
 )
 
@@ -66,7 +72,8 @@ REM SET imagelocation=?
 :: list files in directory
 ECHO WIP...
 ECHO using local usb image
-GOTO SelectImage
+PAUSE
+GOTO END
 
 :: #################################################################
 :StartNetworkService
@@ -74,7 +81,6 @@ CLS
 ECHO starting network service...
 wpeutil InitializeNetwork
 ECHO wpeutil InitializeNetwork
-:: init network
 
 SET choice=
 SET /P choice=continue? [y]:
@@ -111,6 +117,7 @@ GOTO SelectNetwork
 :SelectImage
 CLS
 DIR %imgdir% /b /a-d
+ECHO.
 SET imgname=
 SET /P imgname=type imagename: 
 ECHO.
@@ -123,6 +130,8 @@ GOTO SelectImage
 PAUSE
 
 :: #################################################################
+:: Apply Images Using DISM
+:: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/apply-images-using-dism
 :ApplyImage
 CLS
 
@@ -142,6 +151,11 @@ CLS
 ECHO applying image...
 ECHO "Dism /apply-image /imagefile:%imgdir%\%imgname% /index:1 /ApplyDir:W:\"
 Dism /apply-image /imagefile:%imgdir%\%imgname% /index:1 /ApplyDir:W:\
+
+:: write boot configuration data
+ECHO.
+ECHO writing boot config data...
+bcdboot W:\Windows /s S:
 
 PAUSE
 Wpeutil shutdown
