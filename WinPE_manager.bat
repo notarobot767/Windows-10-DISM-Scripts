@@ -1,18 +1,38 @@
-::tool to create, mount, commit, build ISO for WinPE
-
 @ECHO OFF
 COLOR F9
 
+::script tool to create, mount, commit, build ISOs for WinPE
+
+SET default_img_dir=C:\WinPE_amd64
+:: change this to your directory of choice for convience
+
+SET adk_dir="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\"
+SET adk_env="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\DandISetEnv.bat"
+:: where ADK is installed
+:: download the latest ADK below
+:: https://docs.microsoft.com/en-us/windows-hardware/get-started/adk-install
+
+CD %adk_dir%
+CALL %adk_env%
+:: necessary for running copype & MakeWinPEMedia command within script
+
 REM ###############################################################################
-::set the image directory
-SET img_dir=C:\WinPE_amd64
+:: set initial directory to be used
+:SetDir
+CLS
+SET img_dir=%default_img_dir%
 SET choice=
 SET /P choice=enter image directory [%img_dir%]: 
 IF NOT '%choice%'=='' SET img_dir=%choice%
+ECHO.
 ECHO using "%img_dir%" as image directory
-PAUSE
+SET choice=
+SET /P choice=continue? [y]: 
+IF /I '%choice%'=='Y' GOTO LOOP
+GOTO SetDir
 
 REM ###############################################################################
+:: main menu
 :LOOP
 CLS
 ECHO #######################################
@@ -42,8 +62,9 @@ PAUSE
 GOTO LOOP
 
 REM ###############################################################################
-:MOUNT
 :: mount an WinPE enviornment
+:: mounts within image directory within subfolder "mount"
+:MOUNT
 ECHO loading image and mounting at "%mount_dir"
 SET img_file=%img_dir%\media\sources\boot.wim
 SET mount_dir=%img_dir%\mount
@@ -53,6 +74,7 @@ PAUSE
 GOTO LOOP
 
 REM ###############################################################################
+:: commit changes made to a mounted image and then unmount
 :COMMIT
 ECHO committing and unmounting...
 CALL Dism /Unmount-Image /MountDir:%mount_dir% /commit
@@ -60,6 +82,7 @@ PAUSE
 GOTO LOOP
 
 REM ###############################################################################
+:: discard changes made to a mounted image and then unmount
 :DISCARD
 ECHO discarding and unmounting...
 CALL Dism /Unmount-Image /MountDir:%mount_dir% /discard
@@ -78,15 +101,6 @@ GOTO LOOP
 
 REM ###############################################################################
 :CreatePE
-SET adk_dir="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\"
-SET adk_env="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\DandISetEnv.bat"
-:: where ADK is installed
-:: https://docs.microsoft.com/en-us/windows-hardware/get-started/adk-install
-
-CD %adk_dir%
-CALL %adk_env%
-:: necessary for running copype command
-
 SET ark=amd64
 :: define arktecture
 :: Specify either x86, amd64, or arm
