@@ -133,15 +133,16 @@ PAUSE
 :: Apply Images Using DISM
 :: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/apply-images-using-dism
 :ApplyImage
-CLS
-
 :: change power settings
+:: Optional: speed up the image capture by
+:: setting the power scheme to High performance:
+CLS
 ECHO changing power settings...
 ECHO powercfg /s 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
 powercfg /s 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-ECHO.
 
 :: prepare the disk
+CLS
 ECHO preparing disk...
 ECHO Diskpart /s %diskscript%
 Diskpart /s %diskscript%
@@ -152,10 +153,13 @@ ECHO applying image...
 ECHO "Dism /apply-image /imagefile:%imgdir%\%imgname% /index:1 /ApplyDir:W:\"
 Dism /apply-image /imagefile:%imgdir%\%imgname% /index:1 /ApplyDir:W:\
 
-:: write boot configuration data
-ECHO.
+:: Configure the system partition by using the BCDBoot tool
+:: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/capture-and-apply-windows-system-and-recovery-partitions
+CLS
 ECHO writing boot config data...
-bcdboot W:\Windows /s S:
+W:\Windows\System32\bcdboot W:\Windows /s S:
 
+CLS
+ECHO job complete...
 PAUSE
-Wpeutil shutdown
+Wpeutil reboot

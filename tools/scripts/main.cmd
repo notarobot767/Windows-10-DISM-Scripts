@@ -1,10 +1,6 @@
 @ECHO OFF
 COLOR F9
 
-SET tools=X:\tools
-REM SET tools=C:\Users\Nrogr\Documents\GitHub\winPE\tools
-SET scripts=%tools%\scripts
-
 :: #############################################################
 :LOOP
 CLS
