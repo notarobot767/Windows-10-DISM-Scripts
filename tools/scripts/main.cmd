@@ -21,8 +21,8 @@ CLS
 IF /I '%choice%'=='A' GOTO DEPLOY
 IF /I '%choice%'=='B' GOTO PWedit
 IF /I '%choice%'=='Q' GOTO END
-IF /I '%choice%'=='R' Wpeutil reboot
-IF /I '%choice%'=='S' Wpeutil shutdown
+IF /I '%choice%'=='R' GOTO REBOOT
+IF /I '%choice%'=='S' GOTO SHUTDOWN
 ECHO "%choice%" is not valid. Please try again.
 PAUSE
 GOTO Loop
@@ -31,7 +31,7 @@ GOTO Loop
 :DEPLOY
 CLS
 CALL %scripts%\dism\deploy.cmd
-GOTO END
+GOTO LOOP
 
 :: #############################################################
 :PWedit
@@ -41,6 +41,18 @@ FOR %%i in (C D E F G H I J K) do IF EXIST %%i:\Windows\System32\config\SAM ECHO
 CALL %tools%\ntpwedit64\ntpwedit64
 PAUSE
 GOTO LOOP
+
+:: #############################################################
+:REBOOT
+CLS
+ECHO rebooting...
+Wpeutil reboot
+
+:: #############################################################
+:SHUTDOWN
+CLS
+ECHO shutting down...
+Wpeutil shutdown
 
 :: #############################################################
 :END
