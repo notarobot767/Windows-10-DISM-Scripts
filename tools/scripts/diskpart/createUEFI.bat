@@ -37,5 +37,3 @@ format quick fs=ntfs label="Windows"
 assign letter="W"
 REM W to avoid any assignment conflicts
 REM Windows will change it back to C on reboot
-
-list volume

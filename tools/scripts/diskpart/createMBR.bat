@@ -29,5 +29,3 @@ REM 2. Windows partition
 create partition primary
 format quick fs=ntfs label="Windows"
 assign letter="W"
-
-list volume

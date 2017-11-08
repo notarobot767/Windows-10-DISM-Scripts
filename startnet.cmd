@@ -1,7 +1,7 @@
 @ECHO OFF
 COLOR F9
 
-SET tools=X:\tools
-SET scripts=%tools%\scripts
-START /MAX %scripts%\main.cmd
+START /MAX X:\tools\scripts\main.cmd
 CLS
+
+:: Put me in X:\Windows\System32
