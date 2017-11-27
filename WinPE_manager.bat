@@ -3,10 +3,10 @@ COLOR F9
 
 ::script tool to create, mount, commit, build ISOs for WinPE
 
-SET default_img_dir=C:\WinPE_amd64
+SET default_img_dir=C:\WinPE_amd64_PS
 :: change this to your directory of choice for convience
 
-SET adk_dir="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\"
+SET adk_dir="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools"
 SET adk_env="C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\DandISetEnv.bat"
 :: where ADK is installed
 :: download the latest ADK below
@@ -94,7 +94,7 @@ REM ############################################################################
 :: create a bootable ISO of your WinPE enviornment
 :: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-create-usb-bootable-drive
 ECHO building ISO...
-SET iso_file=WinPE_amd64.iso
+SET iso_file=WinPE_amd64_PS.iso
 CALL MakeWinPEMedia /ISO %img_dir% %img_dir%\%iso_file%
 PAUSE
 GOTO LOOP
