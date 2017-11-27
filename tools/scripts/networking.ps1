@@ -14,8 +14,8 @@ function connectNetshare {
 }
 
 function disconnectNetshare {
-  Write-Host "`ndisconnecting netshare {0}:" -f
-    $default_netshare_drive_mount
+  "`ndisconnecting netshare {0}:" -f
+    $default_netshare_drive_mount | Write-Host
   "net use {0}: /delete" -f
     $default_netshare_drive_mount | Invoke-Expression | Write-Host
 }
