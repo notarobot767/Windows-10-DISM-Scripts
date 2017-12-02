@@ -15,7 +15,6 @@ function findSams {
 function pwedit {
   cls
   findSams | Write-Host
-  $program = "{0}\ntpwedit64\ntpwedit64.exe" -f $tools
-  invoke-expression $program
+  invoke-expression "$tools\ntpwedit64\ntpwedit64.exe"
   pause
 }

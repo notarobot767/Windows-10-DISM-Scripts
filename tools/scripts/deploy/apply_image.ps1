@@ -23,7 +23,7 @@ function applyFormatDisk {
 
 function applyDISM {
   Write-Host "`napplying the image with DISM..."
-  $wim_source = "{0}{1}" -f $default_wim_source, $default_wim_source_image
+  $wim_source = "$default_wim_source$default_wim_source_image"
   "dism /apply-image /imagefile:{0} /index:{1} /applydir:{2}:\" -f
     $wim_source, $default_dism_index, $default_windows_drive |
     Invoke-Expression
