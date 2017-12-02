@@ -42,5 +42,4 @@ function apply {
   applyFormatDisk
   applyDISM
   applyBCDBoot
-  disconnectNetshare
 }
