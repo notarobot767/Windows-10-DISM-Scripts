@@ -9,7 +9,7 @@ function selectWimSourceNetshare {
       cls
       $confirm = "use {0} as the new netshare? [y]" -f
         $default_netshare| Read-Host
-      if($confirm.ToLower() -EQ "y") {
+      if($confirm.ToLower() -eq "y") {
         $default_netshare = $choice
         break
       }

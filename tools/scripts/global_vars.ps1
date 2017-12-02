@@ -1,4 +1,10 @@
-$default_wim_source = "N:\"
+#arbitrary drive letters to represent the following
+$default_netshare_drive_mount = "N"
+$default_windows_drive = "W"
+$default_system_drive = "S"
+
+#wim source
+$default_wim_source = "${default_netshare_drive_mount}:\"
 $default_wim_source_image = "OG.wim"
 $default_is_wim_source_netshare = $true
 $default_netshare = "\\dropzone\anonymous\wim /user:user pass"
@@ -18,11 +24,15 @@ $default_diskscript = "$scripts\diskpart\diskscript.bat"
 $default_prompt_select_disk = $true
 $default_prompt_select_partitioning = $true
 $default_prompt_select_wim_source = $true
+  #if set false, default_wim_source should be
+  #set to "${default_netshare_drive_mount}:\"
 $default_prompt_select_wim_source_image = $true
 $default_prompt_select_wim_source_netshare = $true
-$default_promt_pause_after_connecting_netshare = $true
+$default_prompt_pause_after_connecting_netshare = $true
+$default_prompt_confirm_before_apply = $true
 
 #misc
+$default_use_high_power_scheme = $true
 $default_power_scheme = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
   #the high performance power scheme recommended by Microsoft to
   #use when depoying a WIM using DISM (optional speedup)
@@ -30,11 +40,6 @@ $default_power_scheme = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
 $default_encoding = "utf8"
   #the default encoding in PS is unicode which does not play
   #nice with some applications when reading script files such as
-  #when using the 'diskpart /s [script]' command
+  #when using the diskpart command
 $default_dism_index = 1
-
-
-#arbitrary drive letters to represent the following (immutable)
-$default_netshare_drive_mount = "N"
-$default_windows_drive = "W"
-$default_system_drive = "S"
+  #assumes wim has a index of the this value
